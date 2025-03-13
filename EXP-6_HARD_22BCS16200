@@ -1,0 +1,40 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Product {
+    String category;
+    double price;
+
+    Product(String category, double price) {
+        this.category = category;
+        this.price = price;
+    }
+}
+
+public class Mainnn {
+    public static void main(String[] args) {
+        List<Product> products = Arrays.asList(
+            new Product("Electronics", 1200),
+            new Product("Electronics", 800),
+            new Product("Clothing", 50),
+            new Product("Clothing", 100)
+        );
+
+        Map<String, Double> maxPriceByCategory = products.stream()
+            .collect(Collectors.groupingBy(
+                p -> p.category,
+                Collectors.collectingAndThen(
+                    Collectors.maxBy(Comparator.comparingDouble(p -> p.price)),
+                    opt -> opt.map(p -> p.price).orElse(0.0)
+                )
+            ));
+
+        double averagePrice = products.stream()
+            .mapToDouble(p -> p.price)
+            .average()
+            .orElse(0.0);
+
+        System.out.println("Max price by category: " + maxPriceByCategory);
+        System.out.println("Average price of all products: " + averagePrice);
+    }
+}
