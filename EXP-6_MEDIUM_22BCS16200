@@ -1,0 +1,31 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Student {
+    String name;
+    int marks;
+
+    Student(String name, int marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+}
+
+public class Mainn {
+    public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+            new Student("John", 80),
+            new Student("Jane", 90),
+            new Student("Doe", 70)
+        );
+
+        List<Student> filtered = students.stream()
+            .filter(s -> s.marks > 75)
+            .sorted((s1, s2) -> Integer.compare(s2.marks, s1.marks))
+            .collect(Collectors.toList());
+
+        for (Student s : filtered) {
+            System.out.println(s.name + " " + s.marks);
+        }
+    }
+}
